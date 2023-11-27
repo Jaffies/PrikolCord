@@ -5,9 +5,6 @@ from kivy.core.window import Window
 from mainwidget import MainWidget
 from kivy.properties import BooleanProperty, StringProperty
 
-Window.size = (324, 720)
-Window.title = 'PrikolCord'
-Window.resizable = False
 
 class PrikolCordApp(App):
     connected = BooleanProperty(False)

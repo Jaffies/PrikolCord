@@ -6,6 +6,8 @@ from kivy.properties import NumericProperty
 from kivy.app import App
 from discord import TextChannel
 from kivy.uix.button import Button
+from kivy.clock import Clock
+from functools import partial
 
 Builder.load_string("""<ServerWidget>:
     orientation: 'horizontal'
@@ -96,11 +98,13 @@ class ServerWidget(BoxLayout):
 
         for guild in guilds:
             icon = guild.icon
-            url = icon.url
+            url = icon.url.partition('?')[0]
 
-            circle = CircleImage(source=url, guild_id=guild.id)
+            def lol(url, id, _):
+                circle = CircleImage(source=url, guild_id=id)
+                guild_widget.add_widget(circle)
 
-            guild_widget.add_widget(circle)
+            Clock.schedule_once(partial(lol, url, guild.id))
 
     def set_server(self, guild):
         channel = self.ids['channel']

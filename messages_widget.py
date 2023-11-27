@@ -5,6 +5,7 @@ from kivy.uix.image import AsyncImage
 from kivy.lang.builder import Builder
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.stacklayout import StackLayout
+from kivy.clock import Clock
 
 Builder.load_string("""<MessageWidget>:
     canvas:
@@ -57,7 +58,17 @@ Builder.load_string("""<MessageWidget>:
 """)
 
 class MessageImage(AsyncImage):
-    pass
+    avatarImage = StringProperty('')
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        def ohNoes(ohnoe, lol):
+            def change():
+                ohnoe.source = lol
+                ohnoe.reload()
+            Clock.schedule_del_safe(change)
+        self.bind(avatarImage=ohNoes)
 
 class MessageWidget(StackLayout):
     user_name = StringProperty('')
